@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: nest-books
+    ports:
+      - "3002:3002"
+    depends_on:
+      - mysql-db
+    environment:
+      - DATABASE_HOST=mysql-db
+      - DATABASE_PORT=3306
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=books_catalog
+    volumes:
+      - .:/app
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-books
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: books_catalog
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+volumes:
+  mysqldata:
